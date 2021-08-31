@@ -47,11 +47,11 @@ namespace eShopSolution.Application.Catalog.Products
             return productImage.Id;
         }
 
-        public async Task AddViewCount(int productId)
+        public async Task<bool> AddViewCount(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
             product.ViewCount += 1;
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<int> Create(ProductCreateRequest request)
@@ -94,7 +94,8 @@ namespace eShopSolution.Application.Catalog.Products
                 };
             }
             _context.Products.Add(product);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task<int> Delete(int productId)
@@ -159,6 +160,30 @@ namespace eShopSolution.Application.Catalog.Products
                 Items = data
             };
             return pagedResult;
+        }
+
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var productTrans = await _context.ProductTranslations
+                .FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId);
+            var productViewModel = new ProductViewModel()
+            {
+                Id = product.Id,
+                DateCreated = product.DateCreated,
+                Price = product.Price,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount,
+                OriginalPrice = product.OriginalPrice,
+                Description = productTrans != null ? productTrans.Description : "",
+                Details = productTrans != null ? productTrans.Details : "",
+                Name = productTrans != null ? productTrans.Name : "",
+                LanguageId = productTrans != null ? productTrans.LanguageId : "",
+                SeoAlias = productTrans != null ? productTrans.SeoAlias : "",
+                SeoDescription = productTrans != null ? productTrans.SeoDescription : "",
+                SeoTitle = productTrans != null ? productTrans.SeoTitle : "",
+            };
+            return productViewModel;
         }
 
         public async Task<List<ProductImageViewModel>> GetListImage(int productId)
