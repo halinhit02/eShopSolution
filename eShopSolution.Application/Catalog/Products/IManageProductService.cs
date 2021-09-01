@@ -1,4 +1,5 @@
 ﻿using eShopSolution.Data.Entities;
+using eShopSolution.ViewModels.Catalog.ProductImages;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
@@ -29,10 +30,12 @@ namespace eShopSolution.Application.Catalog.Products
 
         Task<int> AddImage(int productId, ProductImageCreateRequest request);
 
-        Task<int> RemoveImage(int imageId);
+        Task<bool> RemoveImage(int productId, int imageId);
 
-        Task<int> Update(int imageId, ProductImageUpdateRequest request);
+        Task<int> UpdateImage(int productId, int imageId, ProductImageUpdateRequest request);
 
-        Task<List<ProductImageViewModel>> GetListImage(int productId);
+        Task<ProductImageViewModel> GetImageById(int productId, int imageId);
+
+        Task<List<ProductImageViewModel>> GetListImages(int productId);
     }
 }

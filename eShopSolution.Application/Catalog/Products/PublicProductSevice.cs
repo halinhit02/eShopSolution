@@ -48,12 +48,12 @@ namespace eShopSolution.Application.Catalog.Products
             return data;
         }
 
-        public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingResquest request)
+        public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(string languageId, GetPublicProductPagingResquest request)
         {
             //1. Select join
             var query = from product in _context.Products
                         join productTrans in _context.ProductTranslations on product.Id equals productTrans.ProductId
-                        where productTrans.LanguageId == request.languageId
+                        where productTrans.LanguageId == languageId
                         join productIncate in _context.ProductInCategories on product.Id equals productIncate.ProductId
                         join category in _context.Categories on productIncate.CategoryId equals category.Id
                         select new { product, productTrans, productIncate };
