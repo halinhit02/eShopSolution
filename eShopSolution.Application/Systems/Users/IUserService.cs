@@ -11,5 +11,7 @@ namespace eShopSolution.Application.Systems.Users
         Task<string> Authenticate(LoginRequest request);
 
         Task<bool> Register(RegisterRequest request);
+
+        Task<bool> ChangePassword(PasswordChangeRequest request);
     }
 }

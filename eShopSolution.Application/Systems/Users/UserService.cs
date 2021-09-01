@@ -59,6 +59,14 @@ namespace eShopSolution.Application.Systems.Users
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<bool> ChangePassword(PasswordChangeRequest request)
+        {
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user == null) return false;
+            var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+            return result.Succeeded;
+        }
+
         public async Task<bool> Register(RegisterRequest request)
         {
             var user = new AppUser()

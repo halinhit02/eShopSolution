@@ -78,7 +78,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpPatch("{productId}/price/{newPrice}")]
+        /*[HttpPatch("{productId}/price/{newPrice}")]
         public async Task<IActionResult> UpdatePrice(int productId, decimal newPrice)
         {
             var isSuccessful = await _manageProductService.UpdatePrice(productId, newPrice);
@@ -109,7 +109,7 @@ namespace eShopSolution.BackendApi.Controllers
                 return BadRequest();
             }
             return Ok();
-        }
+        }*/
 
         [HttpDelete("{productId}")]
         public async Task<IActionResult> Delete(int productId)
@@ -140,7 +140,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{productId}/images")]
+        /*[HttpPost("{productId}/images")]
         public async Task<IActionResult> Create(int productId, [FromForm] ProductImageCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -155,7 +155,7 @@ namespace eShopSolution.BackendApi.Controllers
             var image = await _manageProductService.GetImageById(productId, imageId);
             //return Created(nameof(GetById), product);
             return CreatedAtAction(nameof(GetImageById), new { productId = productId, imageId = imageId }, image);
-        }
+        }*/
 
         [HttpPut("{productId}/images/{imageId}")]
         public async Task<IActionResult> UpdateImage(int productId, int imageId, [FromForm] ProductImageUpdateRequest request)

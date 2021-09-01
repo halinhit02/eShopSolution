@@ -34,7 +34,7 @@ namespace eShopSolution.BackendApi.Controllers
             {
                 return BadRequest("Username or password is incorrect");
             }
-            return Ok(new { token = resultToken });
+            return Ok(resultToken);
         }
 
         [HttpPost("register")]
@@ -49,6 +49,22 @@ namespace eShopSolution.BackendApi.Controllers
             if (!isSuccessful)
             {
                 return BadRequest("Register is unSuccessful");
+            }
+            return Ok();
+        }
+
+        [HttpPost("change-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangePassword([FromForm] PasswordChangeRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.ChangePassword(request);
+            if (!result)
+            {
+                return BadRequest("Cannot change your password");
             }
             return Ok();
         }
